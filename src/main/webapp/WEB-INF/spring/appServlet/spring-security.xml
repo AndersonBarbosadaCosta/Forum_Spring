@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd 
+ http://www.springframework.org/schema/security
+  http://www.springframework.org/schema/security/spring-security-3.1.xsd" 
+  xmlns:security="http://www.springframework.org/schema/security"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+   xmlns="http://www.springframework.org/schema/beans">
+
+<security:global-method-security secured-annotations="enabled"/>
+<security:http use-expressions="true" auto-config="true">
+
+<security:form-login default-target-url="/" login-page="/" authentication-failure-url="/"/>
+
+<security:intercept-url access="hasRole('ROLE_MEMBRO')" pattern="/post/publicar/**"/>
+
+        <!-- <security:intercept-url pattern="/**" access="isAnonymous()"/> -->
+</security:http>
+
+<bean class="br.com.itexto.springforum.security.SFAuthenticationProvider" autowire="byType" id="sfAuthenticationProvider"/>
+    <security:authentication-manager>
+    <security:authentication-provider ref="sfAuthenticationProvider"/>
+ <security:authentication-provider>
+ <security:user-service>
+
+    <security:user authorities="ROLE_MEMBRO" password="hendrix" name="jimmy"/>
+
+     <security:user authorities="ROLE_MEMBRO,ROLE_ADMIN" password="admin" name="admin"/>
+
+</security:user-service>
+
+</security:authentication-provider>
+
+</security:authentication-manager>
+
+</beans>
